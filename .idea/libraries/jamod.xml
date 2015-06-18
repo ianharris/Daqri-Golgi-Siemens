@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="jamod">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Downloads/jamod-1.2rc1/jamod.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

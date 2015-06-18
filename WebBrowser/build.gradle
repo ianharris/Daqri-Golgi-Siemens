@@ -1,0 +1,87 @@
+// define the dependencies gradle buildscript will use to build
+// the app (not the app itself)
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencies {
+    }
+}
+
+def srcDir = 'src'
+def thriftFileName = '../Daqri.thrift'
+def golgiPkgDir = System.properties['user.home'] + '/Golgi-Pkg/LATEST/common/'
+def GolgiDevKey = '../Golgi.DevKey'
+def GolgiAppKey = '../Golgi.AppKey'
+
+class ConcatFiles extends DefaultTask {
+    @InputFiles
+    FileCollection files
+    @OutputFile
+    File target
+    @TaskAction
+    void concat() {
+        target.withWriter { writer ->
+            files.each { file ->
+                file.withReader { reader ->
+                    writer << reader << '\n'
+                }
+            }
+        }
+    }
+}
+
+task mkGolgiKeysJs << {
+    String appKey = project.file(GolgiAppKey).text;
+    appKey = appKey.trim();
+    String devKey = project.file(GolgiDevKey).text;
+    devKey = devKey.trim();
+
+    project.file(srcDir + '/GolgiKeys.js').withWriter { out ->
+        out.writeLine("/* IS_AUTO_GENERATED_SO_ALLOWDELETE=YES */");
+        out.writeLine("/* The previous line is to allow auto deletion */");
+        out.writeLine("var DEV_KEY = \""+devKey+"\"\n");
+        out.writeLine("var APP_KEY = \""+appKey+"\"\n");
+    }
+}
+
+task(cleanGolgi,type: JavaExec){
+    main 'com.openmindnetworks.golgi.garrick.Garrick'
+    classpath fileTree(dir:golgiPkgDir, includes: ['garrick_combined.jar'])
+    args '-clean','-i',thriftFileName,'-jsf',srcDir+'/GolgiDaqri.js'
+}
+
+task(buildGolgi, type: JavaExec){
+    main 'com.openmindnetworks.golgi.garrick.Garrick'
+    classpath fileTree(dir: golgiPkgDir,includes: ['garrick_combined.jar'])
+    args '-i',thriftFileName,'-jsf',srcDir+'/GolgiDaqri.js'
+}
+
+task(copyGolgiForBrowser, type:Copy){
+    from(System.properties['user.home']+'/Golgi-Pkg/LATEST/javascript'){
+        include 'GolgiForBrowser.js'
+    }
+    into(srcDir)
+}
+
+task combineJs(type:ConcatFiles) {
+    files = files(srcDir+'/GolgiForBrowser.js', srcDir+'/GolgiDaqri.js',srcDir+'/GolgiKeys.js',srcDir+'/GolgiDaqriImpl.js')
+    target = file("$buildDir/DaqriWebJS.js")
+}
+
+task(copyHtml, type:Copy){
+    from(srcDir){
+        include 'index.html'
+    }
+    into("$buildDir")
+}
+
+task build << {
+}
+
+build.dependsOn copyHtml
+copyHtml.dependsOn combineJs
+combineJs.dependsOn buildGolgi,mkGolgiKeysJs
+buildGolgi.dependsOn copyGolgiForBrowser

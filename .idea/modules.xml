@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/DaqriGolgi/DaqriGolgi.iml" filepath="$PROJECT_DIR$/DaqriGolgi/DaqriGolgi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DaqriHelmet/DaqriHelmet.iml" filepath="$PROJECT_DIR$/DaqriHelmet/DaqriHelmet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ModbusClient/ModbusClient.iml" filepath="$PROJECT_DIR$/ModbusClient/ModbusClient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ModbusSiemens.iml" filepath="$PROJECT_DIR$/ModbusSiemens.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WebBrowser/WebBrowser.iml" filepath="$PROJECT_DIR$/WebBrowser/WebBrowser.iml" />
+    </modules>
+  </component>
+</project>

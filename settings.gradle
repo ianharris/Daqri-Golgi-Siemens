@@ -1,0 +1,10 @@
+rootProject.name = 'ModbusSiemens'
+
+include 'ModbusClient'
+
+include 'DaqriGolgi'
+
+include 'DaqriHelmet'
+
+include 'WebBrowser'
+
