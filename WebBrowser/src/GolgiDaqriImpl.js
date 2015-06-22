@@ -51,10 +51,10 @@ function request_data(index, count)
             }
         },
         failWithGolgiException: function(golgiException){
-            console.log("Failed to retrieve data from ModbusServer: " + golgiException.getErrText());
+            console.log("GolgiException: Failed to retrieve data from ModbusServer: " + golgiException.getErrText() + golgiException.getErrType());
         },
         failWithSre: function(sre){
-            console.log("Failed to retrieve data from ModbusServer: " + sre.getError());
+            console.log("SentronReadException: Failed to retrieve data from ModbusServer: " + sre.getError());
         }},
         "DAQRI_SERVER",
         gto,

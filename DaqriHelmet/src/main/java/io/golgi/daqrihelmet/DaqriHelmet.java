@@ -19,12 +19,12 @@ public class DaqriHelmet {
     private static DaqriService.read.ResultReceiver readResultReceiver = new DaqriService.read.ResultReceiver() {
         @Override
         public void failure(GolgiException ex) {
-            System.out.println("DaqriService.read.ResultReceiver: " + ex.getMessage());
+            System.out.println("DaqriService.read.ResultReceiver [GolgiException]: " + ex.getMessage());
         }
 
         @Override
         public void failure(SentronReadException sre){
-            System.out.println("DaqriService.read.ResultReceiver: " + sre.getMessage());
+            System.out.println("DaqriService.read.ResultReceiver [SentronReadException]: " + sre.getError());
         }
 
         @Override

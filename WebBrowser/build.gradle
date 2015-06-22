@@ -78,6 +78,13 @@ task(copyHtml, type:Copy){
     into("$buildDir")
 }
 
+task checkGolgiForBrowser << {
+    if(file(srcDir+'/GolgiForBrowser.js').exists()){
+        println "Disabling copyGolgiForBrowser"
+        copyGolgiForBrowser.enabled = false
+    }
+}
+
 task build << {
 }
 
@@ -85,3 +92,4 @@ build.dependsOn copyHtml
 copyHtml.dependsOn combineJs
 combineJs.dependsOn buildGolgi,mkGolgiKeysJs
 buildGolgi.dependsOn copyGolgiForBrowser
+copyGolgiForBrowser.dependsOn checkGolgiForBrowser
